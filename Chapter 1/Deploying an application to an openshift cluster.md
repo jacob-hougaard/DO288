@@ -83,7 +83,14 @@ Openshift kan også skelne imellem hvorvidt et repository skal bygges ud fra en 
 --strategy source  http://gitserver.example.com/user/mygitrepo
 ```
 
---image-stream og --code kan også bruges som strategy
+--docker-image og --code kan bruges til at specificere hvorvidt det er direkte kode fra et repository der skal bruges, eller et docker-image i repositoriet.
+
+```bash
+[user@host ~]$ oc new-app \
+--code  http://gitserver.example.com/user/mygitrepo
+```
+
+
 
 
 
@@ -93,7 +100,7 @@ Billedet viser hvilke resourcer der bliver lavet af oc new-app kommandoen.
 
 Følgende laver en applikatiopn fra source kode ved hjælp af en en deployment config
 
-```
+```bash
 oc new-app --as-deployment-config \
 --name hello -i php \
 --code http://gitserver.example.com/mygitrepo
@@ -101,14 +108,28 @@ oc new-app --as-deployment-config \
 
 Med --name label kan alle resourcer grouperes
 
-```
+```bash
 [user@host ~]$ oc new-app \
 --name test http://gitserver.example.com/mygitrepo
 ```
 
 Dette gør det f.eks nemmere at slette en app og dens tilhørende resourcer
 
-```
+```bash
 [user@host ~]$ oc delete all -l app=test
+```
+
+Hvis du vil inspicere resource definitioner uden at lave dem i et projekt, kør **-o** med **oc new app**
+
+```bash
+[user@host ~]$ oc new-app \
+-o json registry.example.com/mycontainerimage
+```
+
+### Referring to Container Images Using Image Streams and Tags
+
+```bash
+[user@host ~]$ oc import-image myis --confirm \
+--from registry.acme.example.com:5000/acme/awesome --insecure
 ```
 
