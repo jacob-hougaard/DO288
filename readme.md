@@ -30,12 +30,24 @@ En liste af alle mulige kommandoer kan findes ved at køre help kommandoen:
 oc new app -h
 ```
 
+Du kan tilføje enviornment variable ved hjælp af `-e` flaget
 
+```
+oc new app my-app -e
+```
+
+ 
 
 ## Vis data
 
 ```bash
 oc get pods
+```
+
+Hold øje med pods
+
+```bash
+oc get pods --watch
 ```
 
 ```bash
@@ -44,6 +56,53 @@ oc get all
 
 ```bash
 oc new app
+```
+
+```bash
+oc status
+```
+
+## Hent fil fra et image
+
+```bash
+oc cp <container-image>:<lokation-på-host> <destination>
+```
+
+```bash
+oc cp frontend-1-zvjhb:/var/log/httpd/error_log \
+/tmp/frontend-server.log
+```
+
+## Dokumentation
+
+Se dokumentation for en given resource
+
+```bash
+oc explain <name>
+```
+
+For at dykke dybere ind i en dokumentation kan man kalde resourcen og et felt inden i dokumentationen
+
+```bash
+oc explain <name>.<field>
+```
+
+**eksempel**
+
+```bash
+oc explain pod.spec
+```
+
+## Shell ind i en kørende pod
+
+```bash
+oc rsh -t <pod-name>
+```
+
+## Slet en pod
+
+```bash
+oc delete <resource-type> <name>
 ```
 
 
@@ -61,4 +120,12 @@ Dækket i kapitel 1
 **image-stream**
 
 
+
+# Short-hands
+
+| Navn | refererer til     |
+| ---- | ----------------- |
+| Svc  | Service           |
+| bc   | build-config      |
+| dc   | Deployment-config |
 
