@@ -107,6 +107,97 @@ oc delete <resource-type> <name>
 
 
 
+## Secrets
+
+Set secret
+
+```bash
+oc set env deployment/mydcname \
+--from secret/mysecret
+```
+
+```bash
+oc set volume deployment/mydcname --add \
+-t secret -m /path/to/mount/volume \
+--name myvol --secret-name mysecret
+```
+
+Se secret
+
+```bash
+oc get secret/mysecret -o json
+```
+
+Slet secret
+
+```bash
+oc delete secret/mysecret
+```
+
+**Opdater secret**
+
+Først encode din data til base64
+
+```bash
+echo 'newpassword' | base64
+```
+
+```bash
+oc edit secret/mysecret
+```
+
+Kan også gøres med patch kommandoen
+
+```bash
+oc patch secret/mysecret --patch \
+'{"data":{"password":"bmV3cGFzc3dvcmQK"}}'
+```
+
+## Config maps
+
+```bash
+oc set env deployment/mydcname --from configmap/myconf
+```
+
+```bash
+oc set volume deployment/mydcname --add \
+-t configmap -m /path/to/mount/volume \
+--name myvol --configmap-name myconf
+```
+
+**Se Configmap**
+
+```bash
+oc get configmap/myconf -o json
+```
+
+```bash
+oc delete configmap/myconf
+```
+
+```bash
+oc edit configmap/myconf
+```
+
+## Login i et container registry med podman
+
+```
+podman login quay.io -u <my-user>
+```
+
+```
+podman logout quay.io
+```
+
+```
+podman logout --all
+```
+
+## Tilføj roller til en bruger
+
+oc policy add-role-to-user system:image-puller \
+user_name -n project_name
+
 # Teamaer
 
 ### oc new-app
@@ -128,4 +219,5 @@ Dækket i kapitel 1
 | Svc  | Service           |
 | bc   | build-config      |
 | dc   | Deployment-config |
+| cm   | configMap         |
 
